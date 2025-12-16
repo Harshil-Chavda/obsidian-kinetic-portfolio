@@ -1,0 +1,403 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Harshil Chavda | The Portfolio</title>
+    
+    <link href="https://api.fontshare.com/v2/css?f[]=clash-display@200,400,600,700&f[]=satoshi@300,400,500,700&display=swap" rel="stylesheet">
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
+        /* --- 1. LUXURY RESET --- */
+        :root {
+            --bg: #050505;
+            --text: #F2F2F2;
+            --dim: #888888;
+            --accent: #27c93f; /* Your Signature Green */
+            --border: rgba(255, 255, 255, 0.1);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; cursor: none; /* Custom Cursor */ }
+
+        body {
+            background-color: var(--bg);
+            color: var(--text);
+            font-family: 'Satoshi', sans-serif;
+            overflow-x: hidden;
+        }
+
+        h1, h2, h3, h4 { font-family: 'Clash Display', sans-serif; text-transform: uppercase; }
+        
+        /* SMOOTH SCROLL CONTAINER */
+        .wrapper { width: 100%; position: relative; z-index: 2; }
+
+        /* --- 2. CUSTOM CURSOR --- */
+        #cursor {
+            position: fixed; top: 0; left: 0; width: 15px; height: 15px;
+            background: var(--text); border-radius: 50%;
+            pointer-events: none; z-index: 9999;
+            transform: translate(-50%, -50%);
+            transition: width 0.3s, height 0.3s;
+            mix-blend-mode: exclusion;
+        }
+        #cursor.active { width: 80px; height: 80px; background: white; opacity: 0.1; }
+
+        /* --- 3. NAVIGATION --- */
+        nav {
+            position: fixed; top: 0; left: 0; width: 100%; padding: 40px 60px;
+            display: flex; justify-content: space-between; align-items: center; z-index: 100;
+            mix-blend-mode: difference;
+        }
+        .logo { font-weight: 700; font-size: 1.5rem; letter-spacing: 1px; }
+        .availability { 
+            font-size: 0.9rem; text-transform: uppercase; 
+            display: flex; align-items: center; gap: 10px; 
+        }
+        .dot { width: 8px; height: 8px; background: var(--accent); border-radius: 50%; box-shadow: 0 0 10px var(--accent); }
+
+        /* --- 4. HERO SECTION (Cinematic) --- */
+        .hero {
+            height: 100vh; display: flex; flex-direction: column; justify-content: flex-end;
+            padding: 0 60px 100px 60px; border-bottom: 1px solid var(--border);
+        }
+
+        .hero-label { font-size: 1.2rem; color: var(--accent); margin-bottom: 20px; }
+        
+        .hero-title {
+            font-size: 11vw; line-height: 0.85; font-weight: 600;
+            margin-left: -5px; color: var(--text);
+        }
+        
+        .hero-footer {
+            display: flex; justify-content: space-between; align-items: flex-end; margin-top: 60px;
+        }
+        .hero-desc { max-width: 500px; font-size: 1.25rem; line-height: 1.4; color: var(--dim); }
+        .scroll-indicator { font-size: 0.9rem; text-transform: uppercase; letter-spacing: 2px; animation: bounce 2s infinite; }
+        @keyframes bounce { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(10px); } }
+
+        /* --- 5. DETAILED EXPERIENCE (Sticky Layout) --- */
+        .experience-section {
+            padding: 150px 60px;
+            display: flex; gap: 50px;
+            position: relative;
+        }
+
+        /* The Left Side "Sticks" */
+        .exp-left {
+            width: 30%; height: 100vh;
+            position: sticky; top: 0;
+            display: flex; flex-direction: column; justify-content: center;
+        }
+        .section-heading { font-size: 4rem; line-height: 1; margin-bottom: 30px; }
+        .section-sub { font-size: 1.1rem; color: var(--dim); max-width: 300px; }
+
+        /* The Right Side Scrolls */
+        .exp-right { width: 70%; padding-top: 10vh; padding-bottom: 10vh; }
+
+        /* Job Card */
+        .job-card {
+            border-top: 1px solid var(--border);
+            padding: 60px 0;
+            transition: 0.3s;
+        }
+        .job-card:last-child { border-bottom: 1px solid var(--border); }
+        .job-card:hover { padding-left: 20px; background: rgba(255,255,255,0.02); }
+
+        .job-header { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 20px; }
+        .job-title { font-size: 2.5rem; font-weight: 500; }
+        .job-company { font-size: 1.2rem; color: var(--accent); }
+        .job-date { font-family: monospace; color: var(--dim); }
+
+        /* DETAILED LIST */
+        .job-details { list-style: none; margin-top: 20px; }
+        .job-details li {
+            position: relative; padding-left: 20px; margin-bottom: 10px;
+            color: #ccc; font-size: 1.1rem; line-height: 1.6;
+        }
+        .job-details li::before {
+            content: '▹'; position: absolute; left: 0; color: var(--accent);
+        }
+
+        /* --- 6. HORIZONTAL PROJECTS (Film Strip) --- */
+        .projects-wrapper { overflow: hidden; }
+        .projects-track {
+            display: flex; width: 300%; height: 100vh;
+        }
+        .project-panel {
+            width: 100vw; height: 100%;
+            display: flex; align-items: center; justify-content: center;
+            border-right: 1px solid var(--border); position: relative;
+        }
+        
+        .p-number {
+            position: absolute; top: 40px; left: 60px;
+            font-size: 10rem; opacity: 0.05; font-weight: 700;
+        }
+
+        .p-content { max-width: 800px; padding: 40px; background: #0a0a0a; border: 1px solid var(--border); position: relative; z-index: 2; }
+        .p-tag { font-size: 0.9rem; color: var(--accent); text-transform: uppercase; margin-bottom: 10px; display: block; }
+        .p-title { font-size: 4rem; margin-bottom: 20px; line-height: 1; }
+        .p-desc { font-size: 1.2rem; color: var(--dim); line-height: 1.5; margin-bottom: 30px; }
+        
+        .stat-grid { display: flex; gap: 40px; margin-bottom: 30px; border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); padding: 20px 0; }
+        .stat h4 { font-size: 2rem; color: white; margin-bottom: 5px; }
+        .stat span { font-size: 0.8rem; color: var(--dim); text-transform: uppercase; }
+
+        .btn-outline {
+            display: inline-block; padding: 15px 40px;
+            border: 1px solid var(--text); color: var(--text);
+            text-decoration: none; text-transform: uppercase; font-weight: 600;
+            transition: 0.3s;
+        }
+        .btn-outline:hover { background: var(--text); color: var(--bg); }
+
+        /* --- 7. SKILLS CLOUD --- */
+        .skills-section { padding: 100px 60px; text-align: center; }
+        .skill-tags { 
+            display: flex; flex-wrap: wrap; justify-content: center; gap: 15px; 
+            max-width: 1000px; margin: 60px auto; 
+        }
+        .skill-tag {
+            font-size: 1.5rem; padding: 15px 30px; border: 1px solid var(--border);
+            border-radius: 50px; color: var(--dim); transition: 0.3s;
+        }
+        .skill-tag:hover { color: var(--bg); background: var(--accent); border-color: var(--accent); transform: scale(1.1); }
+
+        /* --- 8. FOOTER --- */
+        footer {
+            height: 100vh; display: flex; flex-direction: column; justify-content: center;
+            padding: 0 60px; border-top: 1px solid var(--border);
+        }
+        .footer-title { font-size: 7vw; line-height: 1; margin-bottom: 40px; }
+        .footer-links { display: flex; gap: 40px; font-size: 1.2rem; text-transform: uppercase; }
+        .footer-links a { color: var(--dim); transition: 0.3s; }
+        .footer-links a:hover { color: var(--accent); }
+
+        /* RESPONSIVE */
+        @media (max-width: 1024px) {
+            .experience-section { flex-direction: column; }
+            .exp-left { width: 100%; height: auto; position: relative; margin-bottom: 50px; }
+            .exp-right { width: 100%; padding: 0; }
+            .hero-title { font-size: 15vw; }
+            nav { padding: 30px; }
+            .hero, .experience-section, footer { padding-left: 30px; padding-right: 30px; }
+        }
+    </style>
+</head>
+<body>
+
+    <div id="cursor"></div>
+
+    <nav>
+        <div class="logo hover-trigger">HARSHIL.DEV</div>
+        <div class="availability">
+            <span class="dot"></span> Available for Hire
+        </div>
+    </nav>
+
+    <div class="wrapper">
+        
+        <section class="hero">
+            <div class="hero-label reveal-text">FULL STACK ENGINEER</div>
+            <h1 class="hero-title reveal-text">BUILDING</h1>
+            <h1 class="hero-title reveal-text" style="color: var(--dim);">SCALABLE</h1>
+            <h1 class="hero-title reveal-text">FUTURE.</h1>
+            
+            <div class="hero-footer">
+                <div class="hero-desc reveal-text">
+                    19-Year-Old Developer <br>Founder of E-Material.<br>Based in India.
+                </div>
+                <div class="scroll-indicator">Scroll Down</div>
+            </div>
+        </section>
+
+        <section class="experience-section">
+            <div class="exp-left">
+                <h2 class="section-heading reveal-text">CAREER<br>LOGS</h2>
+                <p class="section-sub reveal-text">A timeline of professional milestones and technical leadership.</p>
+            </div>
+            
+            <div class="exp-right">
+                <div class="job-card hover-trigger">
+                    <div class="job-header">
+                        <div>
+                            <div class="job-company">NESOLUTIONS</div>
+                            <div class="job-title">Web Developer</div>
+                        </div>
+                        <div class="job-date">AUG 2025 - PRESENT</div>
+                    </div>
+                    <ul class="job-details">
+                        <li>Engineered backend functionality for critical modules, fixing lead-generation failures.</li>
+                        <li>Reduced website load time by 40% by compressing assets and implementing Next-Gen formats.</li>
+                        <li>Managed digital infrastructure and automated client quotation systems.</li>
+                    </ul>
+                </div>
+
+                <div class="job-card hover-trigger">
+                    <div class="job-header">
+                        <div>
+                            <div class="job-company">GAO TAK INC.</div>
+                            <div class="job-title">Squad Leader & Dev</div>
+                        </div>
+                        <div class="job-date">NOV 2024 - MAY 2025</div>
+                    </div>
+                    <ul class="job-details">
+                        <li>Developed functional WooCommerce sites without plugins, writing custom PHP/CSS.</li>
+                        <li>Served as Platoon Leader (PL), managing team workflows and collaboration.</li>
+                        <li>Built full-scale websites using Astra with custom functional overrides.</li>
+                    </ul>
+                </div>
+
+                <div class="job-card hover-trigger">
+                    <div class="job-header">
+                        <div>
+                            <div class="job-company">MARUTI EDUCATION</div>
+                            <div class="job-title">Frontend Intern</div>
+                        </div>
+                        <div class="job-date">2023</div>
+                    </div>
+                    <ul class="job-details">
+                        <li>Developed responsive E-commerce clones to master Front-end fundamentals.</li>
+                        <li>Implemented complex product navigation and grid displays.</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <section class="projects-wrapper">
+            <div class="projects-track">
+                
+                <div class="project-panel">
+                    <div class="p-number">01</div>
+                    <div class="p-content hover-trigger">
+                        <span class="p-tag">Flagship Platform</span>
+                        <h2 class="p-title">E-MATERIAL</h2>
+                        <p class="p-desc">
+                            A global educational platform with <strong>1,382 Active Users</strong>. 
+                            Designed to democratize education through resource sharing.
+                        </p>
+                        
+                        <div class="stat-grid">
+                            <div class="stat"><h4>1.3K+</h4><span>Users</span></div>
+                            <div class="stat"><h4>3</h4><span>Countries</span></div>
+                            <div class="stat"><h4>AI</h4><span>Chatbot</span></div>
+                        </div>
+
+                        <a href="https://e-material.vercel.app" target="_blank" class="btn-outline">Visit Platform</a>
+                    </div>
+                </div>
+
+                <div class="project-panel" style="background: #080808;">
+                    <div class="p-number">02</div>
+                    <div class="p-content hover-trigger">
+                        <span class="p-tag">Frontend Engineering</span>
+                        <h2 class="p-title">UI CLONES</h2>
+                        <p class="p-desc">
+                            Pixel-perfect engineering of award-winning sites (Cryptex & Two Good Co). 
+                            Mastering advanced GSAP animations and complex layout engines.
+                        </p>
+                        <a href="https://github.com/Harshil-Chavda" target="_blank" class="btn-outline">View GitHub</a>
+                    </div>
+                </div>
+
+                <div class="project-panel">
+                    <div class="p-number">03</div>
+                    <div class="p-content hover-trigger">
+                        <span class="p-tag">Automation</span>
+                        <h2 class="p-title">AI TOOLS</h2>
+                        <p class="p-desc">
+                            Custom Python & JS scripts for business logic automation and data processing.
+                        </p>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <section class="skills-section">
+            <h2 class="section-heading">TECHNICAL ARSENAL</h2>
+            <div class="skill-tags">
+                <div class="skill-tag hover-trigger">PHP</div>
+                <div class="skill-tag hover-trigger">JavaScript</div>
+                <div class="skill-tag hover-trigger">React</div>
+                <div class="skill-tag hover-trigger">Laravel</div>
+                <div class="skill-tag hover-trigger">SQL</div>
+                <div class="skill-tag hover-trigger">Python</div>
+                <div class="skill-tag hover-trigger">GSAP</div>
+                <div class="skill-tag hover-trigger">Three.js</div>
+                <div class="skill-tag hover-trigger">Tailwind</div>
+                <div class="skill-tag hover-trigger">WordPress</div>
+                <div class="skill-tag hover-trigger">Git</div>
+                <div class="skill-tag hover-trigger">Docker</div>
+            </div>
+        </section>
+
+        <footer>
+            <h2 class="footer-title hover-trigger">HARSHILCHAVDA1610<br>@GMAIL.COM</h2>
+            <div class="footer-links">
+                <a href="https://github.com/Harshil-Chavda" class="hover-trigger">GitHub</a>
+                <a href="https://www.linkedin.com/in/harshil-chavda-webdev/" class="hover-trigger">LinkedIn</a>
+                <a href="#" class="hover-trigger">+91 8200371516</a>
+            </div>
+        </footer>
+
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/gh/studio-freight/lenis@1.0.29/bundled/lenis.min.js"></script>
+    
+    <script>
+        // 1. LENIS SMOOTH SCROLL
+        const lenis = new Lenis({
+            duration: 1.2,
+            easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+            smooth: true,
+        });
+        function raf(time) { lenis.raf(time); requestAnimationFrame(raf); }
+        requestAnimationFrame(raf);
+
+        gsap.registerPlugin(ScrollTrigger);
+
+        // 2. TEXT REVEAL ANIMATION (Hero)
+        const reveals = document.querySelectorAll('.reveal-text');
+        reveals.forEach((text, i) => {
+            gsap.from(text, {
+                y: 100, opacity: 0, duration: 1, delay: 0.2 * i, ease: "power3.out"
+            });
+        });
+
+        // 3. HORIZONTAL SCROLL (Projects)
+        const section = document.querySelector(".projects-wrapper");
+        const track = document.querySelector(".projects-track");
+
+        let scrollTween = gsap.to(track, {
+            x: () => -(track.scrollWidth - window.innerWidth),
+            ease: "none",
+            scrollTrigger: {
+                trigger: section,
+                pin: true,
+                scrub: 1,
+                end: () => "+=" + track.scrollWidth,
+            }
+        });
+
+        // 4. CUSTOM CURSOR
+        const cursor = document.getElementById('cursor');
+        const triggers = document.querySelectorAll('.hover-trigger');
+
+        document.addEventListener('mousemove', e => {
+            cursor.style.left = e.clientX + 'px';
+            cursor.style.top = e.clientY + 'px';
+        });
+
+        triggers.forEach(trigger => {
+            trigger.addEventListener('mouseenter', () => cursor.classList.add('active'));
+            trigger.addEventListener('mouseleave', () => cursor.classList.remove('active'));
+        });
+
+    </script>
+</body>
+</html>
